@@ -6,16 +6,16 @@
 /*   By: tsishika <tsishika@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:30:48 by tsishika          #+#    #+#             */
-/*   Updated: 2023/06/10 10:38:18 by tsishika         ###   ########.fr       */
+/*   Updated: 2023/06/10 12:40:03 by tsishika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*read_file(int fd, char *buff, char *save)
+static char	*read_file(int fd, char *buff, char *save)
 {
 	int		status;
-	char	*save_temp;
+	char	*buff_save;
 
 	status = 1;
 	while (status != 0)
@@ -26,21 +26,20 @@ char	*read_file(int fd, char *buff, char *save)
 		if (status == 0)
 			break ;
 		buff[status] = '\0';
-		if (!save)
+		if (save == NULL)
 			save = ft_strdup("");
-		save_temp = save;
-		save = ft_strjoin(save_temp, buff);
-		free(save_temp);
-		save_temp = NULL;
+		buff_save = save;
+		save = ft_strjoin(buff_save, buff);
+		free(buff_save);
 		if (ft_strchr(buff, '\n'))
 			break ;
 	}
 	return (save);
 }
 
-char	*ft_clear(char *line)
+static char	*ft_clear(char *line)
 {
-	int		i;
+	size_t	i;
 	char	*save;
 
 	i = 0;
@@ -64,15 +63,14 @@ char	*get_next_line(int fd)
 	char			*line;
 	static char		*save[OPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || OPEN_MAX <= fd)
 		return (NULL);
-	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
+	buff = malloc(BUFFER_SIZE + 1);
+	if (buff == NULL)
 		return (NULL);
 	line = read_file(fd, buff, save[fd]);
 	free(buff);
-	buff = NULL;
-	if (line)
+	if (line != NULL)
 		save[fd] = ft_clear(line);
 	return (line);
 }
