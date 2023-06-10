@@ -6,7 +6,7 @@
 /*   By: tsishika <tsishika@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:31:46 by tsishika          #+#    #+#             */
-/*   Updated: 2023/06/10 11:18:44 by tsishika         ###   ########.fr       */
+/*   Updated: 2023/06/10 11:35:09 by tsishika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,35 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+// char	*ft_strdup(const char *s1)
+// {
+// 	char	*dest;
+// 	char	*ptr;
+// 	char	*result;
+// 	size_t	size;
+
+// 	size = 0;
+// 	ptr = (char *)s1;
+// 	size = ft_strlen(ptr);
+// 	dest = malloc(size + 1);
+// 	if (dest == NULL)
+// 		return (NULL);
+// 	result = dest;
+// 	while (*ptr != '\0')
+// 	{
+// 		*dest++ = *ptr++;
+// 	}
+// 	*dest = '\0';
+// 	return (result);
+// }
+
 char	*ft_strdup(const char *s1)
 {
 	char	*dest;
 	char	*ptr;
 	char	*result;
 	size_t	size;
+	size_t	i;
 
 	size = 0;
 	ptr = (char *)s1;
@@ -56,19 +79,21 @@ char	*ft_strdup(const char *s1)
 	if (dest == NULL)
 		return (NULL);
 	result = dest;
-	while (*ptr != '\0')
+	i = 0;
+	while (ptr[i] != '\0')
 	{
-		*dest++ = *ptr++;
+		dest[i] = ptr[i];
+		i++;
 	}
-	*dest = '\0';
+	dest[i] = '\0';
 	return (result);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	if (s1 == NULL || s2 == NULL)
 		return (ft_strdup(""));

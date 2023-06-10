@@ -6,16 +6,16 @@
 /*   By: tsishika <tsishika@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:31:40 by tsishika          #+#    #+#             */
-/*   Updated: 2023/06/10 11:20:40 by tsishika         ###   ########.fr       */
+/*   Updated: 2023/06/10 12:05:47 by tsishika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*read_file(int fd, char *buff, char *save)
+static char	*read_file(int fd, char *buff, char *save)
 {
 	int		status;
-	char	*save_temp;
+	char	*buff_save;
 
 	status = 1;
 	while (status != 0)
@@ -28,16 +28,16 @@ char	*read_file(int fd, char *buff, char *save)
 		buff[status] = '\0';
 		if (save == NULL)
 			save = ft_strdup("");
-		save_temp = save;
-		save = ft_strjoin(save_temp, buff);
-		free(save_temp);
+		buff_save = save;
+		save = ft_strjoin(buff_save, buff);
+		free(buff_save);
 		if (ft_strchr(buff, '\n'))
 			break ;
 	}
 	return (save);
 }
 
-char	*ft_clear(char *line)
+static char	*ft_clear(char *line)
 {
 	size_t	i;
 	char	*save;
@@ -70,8 +70,19 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = read_file(fd, buff, save[fd]);
 	free(buff);
-	buff = NULL;
 	if (line != NULL)
 		save[fd] = ft_clear(line);
 	return (line);
 }
+
+// #include <stdio.h>
+// int main()
+// {
+// 	// int fd;
+// 	char *line;
+
+// 	// fd = open("file", O_RDONLY);
+// 	while ((line = get_next_line(2))> 0)
+// 	printf("%s\n", line);
+// 	return (0);
+// }
