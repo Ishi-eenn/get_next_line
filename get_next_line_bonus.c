@@ -6,7 +6,7 @@
 /*   By: tsishika <tsishika@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:31:40 by tsishika          #+#    #+#             */
-/*   Updated: 2023/06/10 12:05:47 by tsishika         ###   ########.fr       */
+/*   Updated: 2023/06/10 12:34:34 by tsishika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*ft_clear(char *line)
 	i = 0;
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
-	if (line[i] == '\0' || line[1] == '\0')
+	if (line[i] == '\0')
 		return (NULL);
 	save = ft_substr(line, i + 1, ft_strlen(line) - i);
 	if (*save == '\0')
@@ -76,13 +76,14 @@ char	*get_next_line(int fd)
 }
 
 // #include <stdio.h>
+// #include <fcntl.h>
 // int main()
 // {
-// 	// int fd;
+// 	int fd;
 // 	char *line;
 
-// 	// fd = open("file", O_RDONLY);
-// 	while ((line = get_next_line(2))> 0)
-// 	printf("%s\n", line);
+// 	fd = open("file", O_RDONLY);
+// 	while ((line = get_next_line(fd))> 0)
+// 	printf("%s", line);
 // 	return (0);
 // }
