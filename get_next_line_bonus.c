@@ -6,73 +6,72 @@
 /*   By: tsishika <tsishika@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:31:40 by tsishika          #+#    #+#             */
-/*   Updated: 2023/06/10 01:46:26 by tsishika         ###   ########.fr       */
+/*   Updated: 2023/06/10 11:20:40 by tsishika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*read_file(int fd, char *buff, char *stash)
+char	*read_file(int fd, char *buff, char *save)
 {
-	int		read_status;
-	char	*stash_temp;
+	int		status;
+	char	*save_temp;
 
-	read_status = 1;
-	while (read_status != 0)
+	status = 1;
+	while (status != 0)
 	{
-		read_status = read(fd, buff, BUFFER_SIZE);
-		if (read_status == -1)
+		status = read(fd, buff, BUFFER_SIZE);
+		if (status == -1)
 			return (NULL);
-		if (read_status == 0)
+		if (status == 0)
 			break ;
-		buff[read_status] = '\0';
-		if (!stash)
-			stash = ft_strdup("");
-		stash_temp = stash;
-		stash = ft_strjoin(stash_temp, buff);
-		free(stash_temp);
-		stash_temp = NULL;
+		buff[status] = '\0';
+		if (save == NULL)
+			save = ft_strdup("");
+		save_temp = save;
+		save = ft_strjoin(save_temp, buff);
+		free(save_temp);
 		if (ft_strchr(buff, '\n'))
 			break ;
 	}
-	return (stash);
+	return (save);
 }
 
-char	*ft_clean(char *line)
+char	*ft_clear(char *line)
 {
-	int		i;
-	char	*stash;
+	size_t	i;
+	char	*save;
 
 	i = 0;
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
 	if (line[i] == '\0' || line[1] == '\0')
 		return (NULL);
-	stash = ft_substr(line, i + 1, ft_strlen(line) - i);
-	if (*stash == '\0')
+	save = ft_substr(line, i + 1, ft_strlen(line) - i);
+	if (*save == '\0')
 	{
-		free(stash);
-		stash = NULL;
+		free(save);
+		save = NULL;
 	}
 	line[i + 1] = '\0';
-	return (stash);
+	return (save);
 }
 
 char	*get_next_line(int fd)
 {
 	char			*buff;
 	char			*line;
-	static char		*stash[OPEN_MAX];
+	static char		*save[OPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || OPEN_MAX <= fd)
 		return (NULL);
-	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
+	buff = malloc(BUFFER_SIZE + 1);
+	if (buff == NULL)
 		return (NULL);
-	line = read_file(fd, buff, stash[fd]);
+	line = read_file(fd, buff, save[fd]);
 	free(buff);
 	buff = NULL;
-	if (line)
-		stash[fd] = ft_clean(line);
+	if (line != NULL)
+		save[fd] = ft_clear(line);
 	return (line);
 }

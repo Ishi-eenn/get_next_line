@@ -6,7 +6,7 @@
 /*   By: tsishika <tsishika@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:31:46 by tsishika          #+#    #+#             */
-/*   Updated: 2023/06/10 01:56:07 by tsishika         ###   ########.fr       */
+/*   Updated: 2023/06/10 11:18:44 by tsishika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,6 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	char	*ptr;
-// 	size_t	len_s;
-// 	size_t	i;
-
-// 	len_s = ft_strlen(s);
-// 	ptr = (char *)s;
-// 	if (c == '\0')
-// 		return (&ptr[len_s]);
-// 	i = 0;
-// 	while (ptr[i] != '\0')
-// 	{
-// 		if (ptr[i] == (char)c)
-// 			return (&ptr[i]);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -64,7 +44,7 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strdup(const char *s1)
 {
-	char	*dst;
+	char	*dest;
 	char	*ptr;
 	char	*result;
 	size_t	size;
@@ -72,16 +52,15 @@ char	*ft_strdup(const char *s1)
 	size = 0;
 	ptr = (char *)s1;
 	size = ft_strlen(ptr);
-	dst = (char *)malloc(size + 1 * sizeof(char));
-	result = dst;
-	if (dst)
+	dest = malloc(size + 1);
+	if (dest == NULL)
+		return (NULL);
+	result = dest;
+	while (*ptr != '\0')
 	{
-		while (*ptr != '\0')
-		{
-			*dst++ = *ptr++;
-		}
-		*dst = '\0';
+		*dest++ = *ptr++;
 	}
+	*dest = '\0';
 	return (result);
 }
 
@@ -93,7 +72,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (ft_strdup(""));
-	ptr = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (ptr != NULL)
 	{
 		i = 0;
@@ -115,29 +94,29 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*dst;
 	size_t	i;
 	size_t	j;
-	size_t	n;
+	char	*str;
 
 	if (s == NULL)
 		return (NULL);
-	if (ft_strlen(s) <= start || len == 0)
-		return (ft_strdup(""));
-	n = ft_strlen(&s[start]);
-	if (len > n)
-		dst = (char *)malloc((n + 1) * sizeof(char));
+	if (ft_strlen(s) < len)
+		str = malloc(ft_strlen(s) + 1);
 	else
-		dst = (char *)malloc((len + 1) * sizeof(char));
-	if (!dst)
+		str = malloc(len + 1);
+	if (str == NULL)
 		return (NULL);
-	i = -1;
+	i = 0;
 	j = 0;
-	while (s[++i])
+	while (s[i] != '\0')
 	{
 		if (i >= start && j < len)
-			dst[j++] = s[i];
+		{
+			str[j] = s[i];
+			j++;
+		}
+		i++;
 	}
-	dst[j] = '\0';
-	return (dst);
+	str[j] = 0;
+	return (str);
 }
