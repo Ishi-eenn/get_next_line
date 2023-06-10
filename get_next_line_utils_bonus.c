@@ -6,7 +6,7 @@
 /*   By: tsishika <tsishika@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 15:31:46 by tsishika          #+#    #+#             */
-/*   Updated: 2023/06/10 11:35:09 by tsishika         ###   ########.fr       */
+/*   Updated: 2023/06/10 12:39:09 by tsishika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,6 @@ char	*ft_strchr(const char *s, int c)
 		return (&buff_s[i]);
 	return (NULL);
 }
-
-// char	*ft_strdup(const char *s1)
-// {
-// 	char	*dest;
-// 	char	*ptr;
-// 	char	*result;
-// 	size_t	size;
-
-// 	size = 0;
-// 	ptr = (char *)s1;
-// 	size = ft_strlen(ptr);
-// 	dest = malloc(size + 1);
-// 	if (dest == NULL)
-// 		return (NULL);
-// 	result = dest;
-// 	while (*ptr != '\0')
-// 	{
-// 		*dest++ = *ptr++;
-// 	}
-// 	*dest = '\0';
-// 	return (result);
-// }
 
 char	*ft_strdup(const char *s1)
 {
